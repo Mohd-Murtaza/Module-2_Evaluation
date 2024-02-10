@@ -4,22 +4,46 @@ const { auth } = require("../middlewares/authMiddleware");
 const postsRouter=express.Router();
 
 
-postsRouter.get("/allProducts", async(req,res)=>{
-    const query=req.query;
-    const data=await PostsModel.find(query)
-    console.log(query,"line no. 8")
-    res.status(200).send({msg:"all prods", data})
-})
-postsRouter.post("/add", async(req,res)=>{
-    const body=req.body;
+postsRouter.get("/", async(req,res)=>{
     try {
-        const data=new PostsModel(body);
-        await data.save();
-        res.send({msg:"data added",data})
-    } catch (error) {
-        console.log(error)
-        res.send("error while adding",error)
-    }
+        const query = req.query;
+        const postData = await PostsModel.find(query);
+        res
+          .status(200)
+          .send({ status: "success", msg: "get post data", data: { postData } });
+      } catch (error) {
+        res.status(400).send({ status: "fail", msg: error.message });
+      }
 })
-
+postsRouter.post("/add", auth, async(req,res)=>{
+    try {
+        const postData = req.body;
+        const post = new PostsModel(req.body);
+        await post.save();
+        res
+          .status(200)
+          .send({ status: "success", msg: "create post", data: { post } });
+      } catch (error) {
+        res.status(400).send({ status: "fail", msg: error.message });
+      }
+})
+postsRouter.update("/add", auth, async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const data = req.body;
+        const updatePost = await PostsModel.findByIdAndUpdate({ _id: id }, data);
+        res.status(200).send({ status: "success", msg: "post update" });
+      } catch (error) {
+        res.status(400).send({ status: "fail", msg: error.message });
+      }
+})
+postsRouter.delete("/add", auth, async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const updatePost = await PostsModel.findByIdAndDelete({ _id: id });
+        res.status(200).send({ status: "success", msg: "post delete" });
+      } catch (error) {
+        res.status(400).send({ status: "fail", msg: error.message });
+      }
+})
 module.exports={postsRouter}
