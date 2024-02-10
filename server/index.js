@@ -29,7 +29,9 @@ app.use(cors({
 app.use("/user", userRouter);
 app.use("/posts", postsRouter);
 
-
+app.get("/", (req,res)=>{
+    res.send("this is home page")
+})
 
 app.use((req,res)=>{
     res.status(404).send("this is invalid request!")
