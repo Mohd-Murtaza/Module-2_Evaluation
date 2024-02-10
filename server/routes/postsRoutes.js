@@ -1,19 +1,19 @@
 const express=require("express");
-const ProductModel = require("../models/productModel");
+const PostsModel = require("../models/postsModel");
 const { auth } = require("../middlewares/authMiddleware");
-const productRouter=express.Router();
+const postsRouter=express.Router();
 
 
-productRouter.get("/allProducts", async(req,res)=>{
+postsRouter.get("/allProducts", async(req,res)=>{
     const query=req.query;
-    const data=await ProductModel.find(query)
+    const data=await PostsModel.find(query)
     console.log(query,"line no. 8")
     res.status(200).send({msg:"all prods", data})
 })
-productRouter.post("/add", async(req,res)=>{
+postsRouter.post("/add", async(req,res)=>{
     const body=req.body;
     try {
-        const data=new ProductModel(body);
+        const data=new PostsModel(body);
         await data.save();
         res.send({msg:"data added",data})
     } catch (error) {
@@ -22,4 +22,4 @@ productRouter.post("/add", async(req,res)=>{
     }
 })
 
-module.exports={productRouter}
+module.exports={postsRouter}

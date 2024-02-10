@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const { connection } = require("./db");
 const { userRouter } = require("./routes/userRoutes");
 const { auth } = require("./middlewares/authMiddleware");
-const { productRouter } = require("./routes/productRoutes");
+const { postsRouter } = require("./routes/postsRoutes");
 const PORT=process.env.PORT
 const app=express();
 
@@ -27,7 +27,7 @@ app.use(cors({
     credentials:true
 }));
 app.use("/user", userRouter);
-app.use("/product", productRouter);
+app.use("/posts", postsRouter);
 
 
 
