@@ -27,7 +27,7 @@ postsRouter.post("/add", auth, async(req,res)=>{
         res.status(400).send({ status: "fail", msg: error.message });
       }
 })
-postsRouter.update("/update", auth, async(req,res)=>{
+postsRouter.patch("/update", auth, async(req,res)=>{
     try {
         const { id } = req.params;
         const data = req.body;
