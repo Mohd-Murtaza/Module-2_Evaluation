@@ -27,7 +27,7 @@ postsRouter.post("/add", auth, async(req,res)=>{
         res.status(400).send({ status: "fail", msg: error.message });
       }
 })
-postsRouter.update("/add", auth, async(req,res)=>{
+postsRouter.update("/update", auth, async(req,res)=>{
     try {
         const { id } = req.params;
         const data = req.body;
@@ -37,7 +37,7 @@ postsRouter.update("/add", auth, async(req,res)=>{
         res.status(400).send({ status: "fail", msg: error.message });
       }
 })
-postsRouter.delete("/add", auth, async(req,res)=>{
+postsRouter.delete("/delete", auth, async(req,res)=>{
     try {
         const { id } = req.params;
         const updatePost = await PostsModel.findByIdAndDelete({ _id: id });
