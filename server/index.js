@@ -27,7 +27,7 @@ app.use(cors({
     credentials:true
 }));
 app.use("/user", userRouter);
-app.use("/posts", postsRouter);
+app.use("/posts",auth, postsRouter);
 
 app.get("/", (req,res)=>{
     res.send("this is home page")

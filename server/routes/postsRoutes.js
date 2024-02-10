@@ -1,33 +1,37 @@
 const express=require("express");
 const PostsModel = require("../models/postsModel");
-const { auth } = require("../middlewares/authMiddleware");
 const postsRouter=express.Router();
 
 
 postsRouter.get("/", async(req,res)=>{
     try {
-        const query = req.query;
-        const postData = await PostsModel.find(query);
+        let data=[];
+        const {device} = req.query;
+        if(device){
+             data= await PostsModel.find({userId:req.body.userId,device})
+        }else{
+             data=await PostsModel.find({userId:req.body.userId})
+        }
         res
           .status(200)
-          .send({ status: "success", msg: "get post data", data: { postData } });
+          .send({ status: "success", msg: "get post data", data: { data } });
       } catch (error) {
         res.status(400).send({ status: "fail", msg: error.message });
       }
 })
-postsRouter.post("/add", auth, async(req,res)=>{
+postsRouter.post("/add", async(req,res)=>{
     try {
-        const postData = req.body;
-        const post = new PostsModel(req.body);
+        const {userId, title, body, device} = req.body;
+        const post = new PostsModel({userId, title, body, device});
         await post.save();
         res
           .status(200)
-          .send({ status: "success", msg: "create post", data: { post } });
+          .send({ status: "success", msg: "create post", data:post });
       } catch (error) {
         res.status(400).send({ status: "fail", msg: error.message });
       }
 })
-postsRouter.patch("/update", auth, async(req,res)=>{
+postsRouter.patch("/update/:id", async(req,res)=>{
     try {
         const { id } = req.params;
         const data = req.body;
@@ -37,7 +41,7 @@ postsRouter.patch("/update", auth, async(req,res)=>{
         res.status(400).send({ status: "fail", msg: error.message });
       }
 })
-postsRouter.delete("/delete", auth, async(req,res)=>{
+postsRouter.delete("/delete/:id", async(req,res)=>{
     try {
         const { id } = req.params;
         const updatePost = await PostsModel.findByIdAndDelete({ _id: id });
