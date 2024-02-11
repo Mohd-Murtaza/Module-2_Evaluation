@@ -12,7 +12,7 @@ const app=express();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins= ["http://localhost:5175","https://tender-sweatshirt-tuna.cyclic.app","https://gleaming-rabanadas-185938.netlify.app"]
+const allowedOrigins= ["http://localhost:5173","https://tender-sweatshirt-tuna.cyclic.app","https://gleaming-rabanadas-185938.netlify.app"]
 app.use(cors({
     origin:(origin,callback)=>{
         console.log("Origin is", origin);
