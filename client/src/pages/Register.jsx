@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 const Register = () => {
   const [userDetails, setUserDetails] = useState({
-    userName: "",
+    name: "",
     email: "",
     gender: "",
     password: "",
@@ -10,10 +10,18 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserDetails({
-      ...userDetails,
-      [name]: value,
-    });
+    if (e.target.tagName.toLowerCase() === 'select') {
+        setUserDetails({
+          ...userDetails,
+          [name]: value
+        });
+      } else {
+        setUserDetails({
+          ...userDetails,
+          [name]: value
+        });
+      }
+    
   };
 
   const handleSubmit = async (e) => {
@@ -26,25 +34,26 @@ const Register = () => {
         { withCredentials: true }
       );
       console.log(userData);
-      if (userData.data.msg == "user register successfully") {
-        alert(`user register successfully`);
-      }
-      setUserDetails({
-        userName: "",
-        email: "",
-        password: "",
-      });
+    //   if (userData.data.msg == "user register successfully") {
+    //     alert(`user register successfully`);
+    //   }
+    //   setUserDetails({
+    //     name: "",
+    //     email: "",
+    //     password: "",
+    //     gender:""
+    //   });
     } catch (error) {
       console.log(error);
-      if (error.response.data == "user is exist already") {
-        alert(`user is exist already`);
-      } else if (
-        error.response.data.error == "Password does not meet the criteria."
-      ) {
-        alert(
-          `Your password should have a Uppercase letter, a Special Character, a Number and length should have atleast 8 Character`
-        );
-      }
+    //   if (error.response.data == "user is exist already") {
+    //     alert(`user is exist already`);
+    //   } else if (
+    //     error.response.data.error == "Password does not meet the criteria."
+    //   ) {
+    //     alert(
+    //       `Your password should have a Uppercase letter, a Special Character, a Number and length should have atleast 8 Character`
+    //     );
+    //   }
     }
   };
   return (
@@ -57,13 +66,13 @@ const Register = () => {
     >
       <h1>Register here...</h1>
       <form id="loginFrom" onSubmit={handleSubmit}>
-        <label htmlFor="userName">Enter your name</label>
+        <label htmlFor="name">Enter your name</label>
         <input
           onChange={handleChange}
           type="text"
-          name="userName"
-          id="userName"
-          value={userDetails.userName}
+          name="name"
+          id="name"
+          value={userDetails.name}
           placeholder="User Name..."
         />
         <label htmlFor="gender">Select gender</label>
