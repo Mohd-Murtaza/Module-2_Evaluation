@@ -9,7 +9,13 @@ function App() {
 
   return (
     <>
-    <div>
+    <div style={{
+      background:"aqua",
+      width:"80%",
+      margin:"auto",
+      display:"flex",
+      justifyContent:"space-around"
+    }}>
       <Link to='/'>home</Link>
       <Link to='/register'>register</Link>
       <Link to='/login'>Login</Link>
