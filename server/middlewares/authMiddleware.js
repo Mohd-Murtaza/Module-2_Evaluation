@@ -10,7 +10,8 @@ const auth = async(req, res, next) => {
         if (!accessToken || !refreshToken) {
             return res.status(401).send({ msg: "Unauthorized - Tokens missing" });
         }
-        const checkIsBlacklistTokenExist=await BlacklistModel.findOne({accessToken,refreshToken})
+        const checkIsBlacklistTokenExist=await BlacklistModel.findOne({accessToken})
+        console.log("line 14", checkIsBlacklistTokenExist)
         if(checkIsBlacklistTokenExist){
            return res.status(200).send("please login you are logout person");
         }
