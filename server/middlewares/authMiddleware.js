@@ -10,9 +10,9 @@ const auth = async(req, res, next) => {
         if (!accessToken || !refreshToken) {
             return res.status(401).send({ msg: "Unauthorized - Tokens missing" });
         }
-        const checkIsBlacklistTokenExist=await BlacklistModel.exists({accessToken,refreshToken})
+        const checkIsBlacklistTokenExist=await BlacklistModel.findOne({accessToken,refreshToken})
         if(checkIsBlacklistTokenExist){
-            res.status(200).send("please login you are logout person");
+           return res.status(200).send("please login you are logout person");
         }
         jwt.verify(accessToken, process.env.ACCESS_KEY, (err, decode) => {
             if (err) {
